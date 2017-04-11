@@ -58,6 +58,15 @@ dependencies {
     compile fileTree(dir:'libs',include:['*.jar'])
 }
 
+// 去掉编译时的一些warning
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
+
 // 输入 gradle uploadArchives -Disrelease=y/n 打包上传至maven库
 uploadArchives {
     repositories {
@@ -94,7 +103,7 @@ uploadArchives {
     }
 }
 
-//参见Part 2， 为项目生成**.jar/**-javadoc.jar/**-sources.jar
+//为项目生成**.jar/**-javadoc.jar/**-sources.jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from 'README.md'

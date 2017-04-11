@@ -44,21 +44,8 @@ public abstract class WebApplicationListener implements ServletContextListener,
         sessionOnStart(event.getSession(), event);
     }
 
-    /**
-     * simulate ASP.NET Application_OnStart
-     */
     protected abstract void applicationOnStart(ServletContext context, ServletContextEvent event);
-    /**
-     * simulate ASP.NET Application_OnEnd
-     */
     protected abstract void applicationOnEnd(ServletContext context, ServletContextEvent event);
-
-    /**
-     * simulate ASP.NET Session_OnStart()
-     */
     protected abstract void sessionOnStart(HttpSession session, HttpSessionEvent event);
-    /**
-     * simulate ASP.NET Session_OnEnd()
-     */
     protected abstract void sessionOnEnd(HttpSession session, HttpSessionEvent event);
 }
