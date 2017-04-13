@@ -13,34 +13,28 @@ import javax.servlet.http.HttpSessionListener;
  * @author quangang.sheng@adchina.com
  * @version Tue Apr 23 11:08:49     2013
  */
-public abstract class WebApplicationListener implements ServletContextListener,
-       HttpSessionListener
+public abstract class WebApplicationListener implements ServletContextListener, HttpSessionListener
 {
 
     static volatile ServletContext servletContext;
 
-    public static ServletContext getServletContext()
-    {
+    public static ServletContext getServletContext() {
         return servletContext;
     }
 
-    public void contextInitialized(ServletContextEvent event)
-    {
+    public void contextInitialized(ServletContextEvent event) {
         servletContext = event.getServletContext();
         applicationOnStart(servletContext, event);
     }
-    public void contextDestroyed(ServletContextEvent event)
-    {
+    public void contextDestroyed(ServletContextEvent event) {
         applicationOnEnd(event.getServletContext(), event);
         servletContext = null;
     }
 
-    public void sessionDestroyed(HttpSessionEvent event)
-    {
+    public void sessionDestroyed(HttpSessionEvent event) {
         sessionOnEnd(event.getSession(), event);
     }
-    public void sessionCreated(HttpSessionEvent event)
-    {
+    public void sessionCreated(HttpSessionEvent event) {
         sessionOnStart(event.getSession(), event);
     }
 
