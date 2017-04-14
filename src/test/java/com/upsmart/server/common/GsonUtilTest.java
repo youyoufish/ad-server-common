@@ -1,12 +1,12 @@
 package com.upsmart.server.common;
 
+import com.google.gson.annotations.SerializedName;
 import com.upsmart.server.common.utils.GsonUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class GsonUtilTest {
         td2.cur = "RMB";
         td2.id = "123456";
         SubData sd = new SubData();
-        sd.price = 0.999f;
+        sd.myprice = 0.999f;
         td2.bid.add(sd);
         String s2 = gson.serialize(td2);
 
@@ -43,11 +43,14 @@ public class GsonUtilTest {
     }
 
     class TData{
-        public String cur;
+        private String cur;
+
         public String id;
         public List<SubData> bid = new ArrayList<>();
     }
     class SubData{
-        public float price;
+
+        @SerializedName("price")
+        public float myprice;
     }
 }
