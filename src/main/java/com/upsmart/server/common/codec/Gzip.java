@@ -3,6 +3,7 @@ package com.upsmart.server.common.codec;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -52,12 +53,30 @@ public class Gzip {
         if (b == null || b.length == 0) {
             return null;
         }
+        ByteArrayInputStream in = null;
+        try{
+            in = new ByteArrayInputStream(b);
+            return uncompressToString(in, encoding);
+        }
+        finally {
+            if(null != in){
+                try {
+                    in.close();
+                }
+                catch (IOException e) {
+                }
+            }
+        }
+    }
+
+    public static String uncompressToString(InputStream inStream, String encoding) {
+        if (inStream == null) {
+            return null;
+        }
         GZIPInputStream gzip = null;
         ByteArrayOutputStream out = null;
         try {
-
-            ByteArrayInputStream in = new ByteArrayInputStream(b);
-            gzip = new GZIPInputStream(in);
+            gzip = new GZIPInputStream(inStream);
             out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int len;
