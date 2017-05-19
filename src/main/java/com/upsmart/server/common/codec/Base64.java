@@ -69,8 +69,8 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
 
     // Create arrays to hold the base64 characters and a
     // lookup for base64 chars
-    private static byte[] base64Alphabet = new byte[BASELENGTH];
-    private static byte[] lookUpBase64Alphabet = new byte[LOOKUPLENGTH];
+    private static byte[] base64Alphabet = new byte[BASELENGTH]; // 存放序号
+    private static byte[] lookUpBase64Alphabet = new byte[LOOKUPLENGTH];    // 存放64个标准转换字符
 
     // Populating the lookup and character arrays
     static {
@@ -104,6 +104,23 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
 
         lookUpBase64Alphabet[62] = (byte) '+';
         lookUpBase64Alphabet[63] = (byte) '/';
+    }
+
+    /**
+     * ABCD EFGHIJKL  MNOPQRSTUVWXYZabcdefgh  ijkl mnopq  rstuvwxyz0123456789 +/
+     * EFGHIJKL ABCD  MNOPQRSTUVWXYZabcdefgh  mnopq ijkl  rstuvwxyz0123456789 _-
+     */
+    public static void setOwnEncoding(String encoding){
+        if(LOOKUPLENGTH != encoding.length()){
+            throw new IllegalArgumentException("length is invalid!");
+        }
+
+        lookUpBase64Alphabet = encoding.getBytes();
+
+        for(byte i=0; i<lookUpBase64Alphabet.length; i++){
+            byte index = lookUpBase64Alphabet[i];
+            base64Alphabet[index] = i;
+        }
     }
 
     private static boolean isBase64(byte octect) {
