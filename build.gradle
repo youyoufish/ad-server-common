@@ -104,6 +104,12 @@ uploadArchives {
     }
 }
 
+//每次build都取仓库最新
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor  0,'seconds'
+}
+
 //为项目生成**.jar/**-javadoc.jar/**-sources.jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
