@@ -65,7 +65,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
     /**
      * Byte used to pad output.
      */
-    static final byte PAD = (byte) '=';
+    private static byte PAD = (byte) '=';
 
     // Create arrays to hold the base64 characters and a
     // lookup for base64 chars
@@ -107,8 +107,8 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
     }
 
     /**
-     * ABCD EFGHIJKL  MNOPQRSTUVWXYZabcdefgh  ijkl mnopq  rstuvwxyz0123456789 +/
-     * EFGHIJKL ABCD  MNOPQRSTUVWXYZabcdefgh  mnopq ijkl  rstuvwxyz0123456789 _-
+     * 自定义字符转换
+     * @param encoding 转换字符,64个字符,默认是"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
      */
     public static void setOwnEncoding(String encoding){
         if(LOOKUPLENGTH != encoding.length()){
@@ -117,10 +117,18 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
 
         lookUpBase64Alphabet = encoding.getBytes();
 
-        for(byte i=0; i<lookUpBase64Alphabet.length; i++){
+        for(byte i=0; i<lookUpBase64Alphabet.length; i++) {
             byte index = lookUpBase64Alphabet[i];
             base64Alphabet[index] = i;
         }
+    }
+
+    /**
+     * 自定义结尾填充字符
+     * @param pad 结尾字符,默认是'='
+     */
+    public static void setOwnPad(byte pad){
+        PAD = pad;
     }
 
     private static boolean isBase64(byte octect) {

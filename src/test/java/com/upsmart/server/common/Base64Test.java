@@ -43,4 +43,21 @@ public class Base64Test {
 
         //org.apache.commons.codec.binary.Base64 b64 = new org.apache.commons.codec.binary.Base64();
     }
+
+    @Test
+    public void test2(){
+        Base64.setOwnEncoding("EFGHIJKLABCDMNOPQRSTUVWXYZabcdefghmnopqijklrstuvwxyz0123456789_-");
+        Base64.setOwnPad((byte)'!');
+
+        String s = "ZXY9dLpwZTkhaWFvbn1hdWpoOnE7bXFkZHjyNHtmaWQ6MTY3O2NkZHj3MTo7YWRqbXQ6YqJubqVyO2ZyZXJoZXZkY2VkZHj1YTg0YzM1OWBmNHpoOWZpOHo5Znc0NzpmOTBmYzcyMztqcqVxbWV0YTknX3RvdKJsX2ptcJ82O2FhdH1zcqM6MTE7cLVmbqJtZTjpRTUpOHUpQUMpRTQpQngpQoApRTYpOTcpQnYpRTUpQnEpOUIpRTUpOIMpOTYpRTUpQTYpOHYyO21obWR0OqJwcHthcLFkZHkhMnMxYqI5NnEwYWI3NTU4MnE4ZHRoNKRpMHVhZHg5NnthcLFhaWQ6O2B1bqRsZTknb20uYW5ocq9kZKVtdS5uZXNjZKwyO3F1YqpoOnttZHj7cKRkZHj7YWpoOnE7c2p6ZTj2NHF4MTEwO2FpbiY9b3M6MTtkb3N2ZXA6NG40DnQ7aXE6MTI3DnIzNm4yNm4xNnE7bKNvdW50cio6MTg5O2xnaXR5Ontsc3RhdKU6NTMxO253a3R5cKU6MHtud2t2bqQ6MTtzcnj7ZLZndLpwZTj7ZLZnYiBhbqQ6T1FQTztodqNtb2RpbHkFMTI7bK5iOntsYXQ6O2F1c2VyPWptZWo6NWI4NKMzNTpmYnQ5ZHpqZTg5OWY3NHc5YnoyYqM3MnM7bWJnOnA0YnA0Ync5NzQ5Y2A2YToxMWVnYTNqZnRhOHNhY2YyO21hYzI6O2JuZLBvaWRkZHj5MHFoZWZhNHo0ZnAxN2JnNWQ0NzRpYTEwNKM1M2QyNTtkZKZhOntvcKVudWRkZHj7ZLVkZHj7aW1zaTkgZXQ9MTEwMKFhY2poPXVuaW9ucKJ5YKJ1Y3Rkb25kZH0yMHI3MHUzMS0xNHE0MzhfYqpocqVxXzIzOS0yOTQtM3hHcm04OTQ!";
+
+        byte[] d64 = Base64.decodeBase64(s.getBytes());
+        String n = new String(d64);
+        System.out.println(n);
+
+        String compare = "ev=type:ai`on=auid:0;mpid:24;bid:167;cid:719;adfmt:banner;freqdeviceid:5a84c359bb49d9fe899f7479b92bc723;freqmeta:c_total_imp_6;`at=src:10;pubname:%E5%85%AC%E4%B8%BB%E6%97%B6%E5%B0%9A%E5%8C%96%E5%A6%862;mdmdt:app;appid:a231ba9600aa7558208d4d4de05ad896;appaid:;bundle:com.androidemu.neshdl2;pubid:;md:;pdid:;aid:0;size:640x100;`env=os:1;iosver:4.4.4;ip:117.136.26.160;lcountry:189;lcity:;lstate:531;nwktype:0;nwkvnd:1;sr:;dvctype:;dvcbrand:OPPO;dvcmodel:A11;lng:;lat:;`user=imei:5a84c359bb49d9fe899f7479b92bc723;mac:24b24b79749cb6a911eca3ff4a83acf2;mac1:;androidid:900defa494f217ac5d474ea004c53d25;idfa:;openudid:;duid:;imsi:`et=1000`acid=unionpay`auctionid=20170531-140438_bidreq_139-294-3xCr-894";
+        System.out.println(compare);
+
+        Assert.assertEquals(n, compare);
+    }
 }
