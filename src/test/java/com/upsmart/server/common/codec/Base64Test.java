@@ -1,4 +1,4 @@
-package com.upsmart.server.common;
+package com.upsmart.server.common.codec;
 
 import com.upsmart.server.common.codec.Base64;
 import org.junit.Assert;

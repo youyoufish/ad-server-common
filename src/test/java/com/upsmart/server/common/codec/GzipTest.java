@@ -1,4 +1,4 @@
-package com.upsmart.server.common;
+package com.upsmart.server.common.codec;
 
 import com.upsmart.server.common.codec.Gzip;
 import org.junit.Assert;
