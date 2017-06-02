@@ -24,7 +24,8 @@ public class DigestUtil
 	{
 		try
 		{
-			byte[] inBytes = Base64.encodeBase64(ByteArrayUtil.stringToByteArray(content));
+			Base64 b64 = new Base64();
+			byte[] inBytes = b64.encodeBase64(ByteArrayUtil.stringToByteArray(content));
 			String ret = toMD5(inBytes);
 			return ret;
 		} catch (UnsupportedEncodingException e)

@@ -12,13 +12,14 @@ public class AESTest {
 
     @Test
     public void test() throws Exception {
+        Base64 base64 = new Base64();
 
         String key = "50c094c0927145b79577b226c3b4b551";
 
         String decode = "Y4d3zpSOgQiUN84AItTUKe0EBxSP1oo0xEFXOV0NxJ4";
         decode = decode + "==";
-        Base64.setOwnEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_");
-        byte[] bytesDecode = Base64.decodeBase64(decode.getBytes());
+        base64.setOwnEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_");
+        byte[] bytesDecode = base64.decodeBase64(decode.getBytes());
 
         byte[] bk = AES.hexToBytes(key);
 

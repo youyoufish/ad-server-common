@@ -65,15 +65,15 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
     /**
      * Byte used to pad output.
      */
-    private static byte PAD = (byte) '=';
+    private byte PAD = (byte) '=';
 
     // Create arrays to hold the base64 characters and a
     // lookup for base64 chars
-    private static byte[] base64Alphabet = new byte[BASELENGTH]; // 存放序号
-    private static byte[] lookUpBase64Alphabet = new byte[LOOKUPLENGTH];    // 存放64个标准转换字符
+    private byte[] base64Alphabet = new byte[BASELENGTH]; // 存放序号
+    private byte[] lookUpBase64Alphabet = new byte[LOOKUPLENGTH];    // 存放64个标准转换字符
 
     // Populating the lookup and character arrays
-    static {
+    public Base64() {
         for (int i = 0; i < BASELENGTH; i++) {
             base64Alphabet[i] = (byte) -1;
         }
@@ -110,7 +110,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * 自定义字符转换
      * @param encoding 转换字符,64个字符,默认是"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
      */
-    public static void setOwnEncoding(String encoding){
+    public void setOwnEncoding(String encoding){
         if(LOOKUPLENGTH != encoding.length()){
             throw new IllegalArgumentException("length is invalid!");
         }
@@ -127,11 +127,11 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * 自定义结尾填充字符
      * @param pad 结尾字符,默认是'='
      */
-    public static void setOwnPad(byte pad){
+    public void setOwnPad(byte pad){
         PAD = pad;
     }
 
-    private static boolean isBase64(byte octect) {
+    private boolean isBase64(byte octect) {
         if (octect == PAD) {
             return true;
         } else if (base64Alphabet[octect] == -1) {
@@ -149,7 +149,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @return true if all bytes are valid characters in the Base64
      *         alphabet or if the byte array is empty; false, otherwise
      */
-    public static boolean isArrayByteBase64(byte[] arrayOctect) {
+    public boolean isArrayByteBase64(byte[] arrayOctect) {
 
         arrayOctect = discardWhitespace(arrayOctect);
 
@@ -174,7 +174,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param binaryData binary data to encode
      * @return Base64 characters
      */
-    public static byte[] encodeBase64(byte[] binaryData) {
+    public byte[] encodeBase64(byte[] binaryData) {
         return encodeBase64(binaryData, false);
     }
 
@@ -185,7 +185,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param binaryData binary data to encode
      * @return Base64 characters chunked in 76 character blocks
      */
-    public static byte[] encodeBase64Chunked(byte[] binaryData) {
+    public byte[] encodeBase64Chunked(byte[] binaryData) {
         return encodeBase64(binaryData, true);
     }
 
@@ -229,7 +229,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      *                  the base64 output into 76 character blocks
      * @return Base64-encoded data.
      */
-    public static byte[] encodeBase64(byte[] binaryData, boolean isChunked) {
+    public byte[] encodeBase64(byte[] binaryData, boolean isChunked) {
         int lengthDataBits = binaryData.length * EIGHTBIT;
         int fewerThan24bits = lengthDataBits % TWENTYFOURBITGROUP;
         int numberTriplets = lengthDataBits / TWENTYFOURBITGROUP;
@@ -369,7 +369,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param base64Data Byte array containing Base64 data
      * @return Array containing decoded data.
      */
-    public static byte[] decodeBase64(byte[] base64Data) {
+    public byte[] decodeBase64(byte[] base64Data) {
         // RFC 2045 requires that we discard ALL non-Base64 characters
         base64Data = discardNonBase64(base64Data);
 
@@ -438,7 +438,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * from.
      * @return The data, less whitespace (see RFC 2045).
      */
-    static byte[] discardWhitespace(byte[] data) {
+    private byte[] discardWhitespace(byte[] data) {
         byte groomedData[] = new byte[data.length];
         int bytesCopied = 0;
 
@@ -470,7 +470,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param data The base-64 encoded data to groom
      * @return The data, less non-base64 characters (see RFC 2045).
      */
-    static byte[] discardNonBase64(byte[] data) {
+    private byte[] discardNonBase64(byte[] data) {
         byte groomedData[] = new byte[data.length];
         int bytesCopied = 0;
 
@@ -529,7 +529,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      *
      * @param data represent the content of origin string
      */
-    public static String toBase64(ByteBuffer data) {
+    public String toBase64(ByteBuffer data) {
         byte[] rawBytes = new byte[data.remaining()];
         System.arraycopy(data.array(), data.arrayOffset(), rawBytes, 0, rawBytes.length);
         byte[] result = encodeBase64(rawBytes);
@@ -544,7 +544,7 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      *
      * @param data represent the base64 string.
      */
-    public static ByteBuffer fromBase64(CharSequence data) {
+    public ByteBuffer fromBase64(CharSequence data) {
     	// Charset.forName("US_ASCII").encode(CharBuffer.wrap(data));// 
         ByteBuffer buf = StandardCharsets.US_ASCII.encode(CharBuffer.wrap(data));
         byte[] rawBytes = new byte[buf.remaining()];
@@ -563,9 +563,9 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param data in base64
      * @param cs the charset to convert decoded byte array into string
      */
-    public static String fromBase64(CharSequence data, Charset cs) { return cs.decode(fromBase64(data)).toString(); }
+    public String fromBase64(CharSequence data, Charset cs) { return cs.decode(fromBase64(data)).toString(); }
 
-    public static String fromBase64(CharSequence data, CharsetDecoder decoder) throws CharacterCodingException {
+    public String fromBase64(CharSequence data, CharsetDecoder decoder) throws CharacterCodingException {
         return decoder.decode(fromBase64(data)).toString();
     }
     /**
@@ -580,8 +580,8 @@ public class Base64 /* implements BinaryEncoder, BinaryDecoder */ {
      * @param cs used to encode the origin string into byte array, then
      *      convert the byte array into base64
      */
-    public static String toBase64(CharSequence data, Charset cs) { return toBase64(cs.encode(CharBuffer.wrap(data))); }
-    public static String toBase64(CharSequence data, CharsetEncoder encoder) throws CharacterCodingException {
+    public String toBase64(CharSequence data, Charset cs) { return toBase64(cs.encode(CharBuffer.wrap(data))); }
+    public String toBase64(CharSequence data, CharsetEncoder encoder) throws CharacterCodingException {
         return toBase64(encoder.encode(CharBuffer.wrap(data)));
     }
 }
