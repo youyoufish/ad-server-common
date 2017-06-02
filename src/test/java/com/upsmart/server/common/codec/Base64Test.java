@@ -60,4 +60,18 @@ public class Base64Test {
 
         Assert.assertEquals(n, compare);
     }
+
+    @Test
+    public void test3(){
+        String s = "123";
+        byte[] x = Base64.encodeBase64(s.getBytes());
+        String encode = new String(x);
+        System.out.println(encode);
+        encode = encode +"==";
+        byte[] y = Base64.decodeBase64(encode.getBytes());
+        String decode = new String(y);
+        System.out.println(decode);
+
+        Assert.assertEquals(s, decode);
+    }
 }
