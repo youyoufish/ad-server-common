@@ -276,6 +276,22 @@ public final class DateUtil
      * This tricky timestamp is counted in seconds to comfort AdServer.
      */
     public static Date fromUnixTimestamp(long timestamp) { return new Date(timestamp * 1000); }
+
+    /**
+     * 00:00:00
+     *
+     * @return
+     */
+    public static Date zeroClock(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        cal.clear();
+        cal.set(year, month, day);
+        return cal.getTime();
+    }
     
     /**
     * get the MONDAY of the week of date

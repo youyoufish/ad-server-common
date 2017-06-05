@@ -35,5 +35,8 @@ public class DateUtilTest {
 
         day = DateUtil.getFirstDayOfMonth(DateUtil.parseDate("20170501", "yyyyMMdd"));
         System.out.println(DateUtil.format(day));
+
+        day = DateUtil.zeroClock(DateUtil.parseDate("20170501 121314", "yyyyMMdd HHmmss"));
+        System.out.println(DateUtil.format(day));
     }
 }
