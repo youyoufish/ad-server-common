@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
  * class for date time format
  * 
  * SimpleDateFormat is not thread safety, so every time format function should create an new SimpleDateFormat instance.
- * 
- * @author Richard.wang
+ *
  * @version 2013-11-09
  */
 
@@ -26,8 +25,6 @@ public final class DateUtil
 
     /**
      * default format
-     * 
-     * @see DEFAULT_DATE_FORMAT_STRING
      * 
      * @param date instance of Date
      * @return String result
@@ -60,9 +57,6 @@ public final class DateUtil
     
     /**
      *  default format
-     *  
-     * @see DEFAULT_DATE_FORMAT_STRING
-     * 
      * @param date in String
      * @return instance of Date
      */
@@ -92,6 +86,34 @@ public final class DateUtil
         }
        
         return ret;
+    }
+
+    public static Date addMonth(int month)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime();
+    }
+    public static Date addMonth(Date time, int month)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime();
+    }
+
+    public static Date addDay(int day)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
+    }
+    public static Date addDay(Date time, int day)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        calendar.add(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
     }
     
     public static Date addMinute(int minute)
@@ -246,7 +268,9 @@ public final class DateUtil
     /**
      * This tricky timestamp is counted in seconds to comfort AdServer.
      */
-    public static long toUnixTimestamp(Date date) { return date.getTime() / 1000; }
+    public static long toUnixTimestamp(Date date) {
+        return date.getTime() / 1000;
+    }
 
     /**
      * This tricky timestamp is counted in seconds to comfort AdServer.
@@ -254,32 +278,89 @@ public final class DateUtil
     public static Date fromUnixTimestamp(long timestamp) { return new Date(timestamp * 1000); }
     
     /**
-    * get the first day of the week of date
+    * get the MONDAY of the week of date
     * 
     * @param date
     * @return
     */
-    public static Date getFirstDayOfWeek(Date date) 
+    public static Date getMondayOfWeek(Date date)
     { 
     	Calendar cal = Calendar.getInstance();
-    	cal.setFirstDayOfWeek(Calendar.MONDAY);
     	cal.setTime(date);
-    	cal = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
-    	cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek()); // Monday
-    	return cal.getTime ();
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (dayOfWeek == 1) {
+            dayOfWeek = 0;
+        } else {
+            dayOfWeek = 1-dayOfWeek;
+        }
+        cal.add(Calendar.DAY_OF_MONTH, dayOfWeek);
+        return cal.getTime();
+    }
+
+    /**
+     * get the dirst day of the month of date
+     *
+     * @param date
+     * @return
+     */
+    public static Date getFirstDayOfMonth(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_MONTH);
+        if (dayOfWeek == 1) {
+            dayOfWeek = 0;
+        } else {
+            dayOfWeek = 1-dayOfWeek;
+        }
+        cal.add(Calendar.DAY_OF_MONTH, dayOfWeek);
+        return cal.getTime();
+    }
+
+    /**
+     * 周日~周六, 1~7
+     * @param date
+     * @return
+     */
+    public static int getDayOfWeek(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_WEEK);
     }
     
     /**
-     * the week count between two date.
-     * 
+     * 相差 week
      * @param from
      * @param to
      * @return
      */
-    public static long getWeekTimespan(Date from, Date to)
+    public static long getWeekGap(Date from, Date to)
     {
-    	long between = (to.getTime() - from.getTime())/1000; // convert to second
-    	long weekspan = (between/(24*3600)) / 7;
+    	long weekspan = getDayGap(from, to) / 7;
 		return weekspan;
+    }
+
+    /**
+     * 相差 day
+     * @param from
+     * @param to
+     * @return
+     */
+    public static long getDayGap(Date from, Date to)
+    {
+        long between = getSecondGap(from, to); // convert to second
+        long weekspan = between/(24*3600);
+        return weekspan;
+    }
+
+    /**
+     * 相差 second
+     * @param from
+     * @param to
+     * @return
+     */
+    public static long getSecondGap(Date from, Date to){
+        long between = (to.getTime() - from.getTime())/1000; // convert to second
+        return between;
     }
 }

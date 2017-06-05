@@ -1,9 +1,11 @@
 package com.upsmart.server.common.codec;
 
+import com.upsmart.server.common.utils.DateUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by upsmart on 17-6-2.
