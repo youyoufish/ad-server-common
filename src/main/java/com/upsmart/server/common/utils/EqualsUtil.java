@@ -175,4 +175,17 @@ public final class EqualsUtil
 
         return true;
     }
+
+    public static <TKey> boolean equals(TKey left, TKey right){
+        if (left == null && right == null) {
+            return true;
+        }
+        if ((left == null && right != null) || (left != null && right == null)) {
+            return false;
+        }
+        if (!left.equals(right)) {
+            return false;
+        }
+        return true;
+    }
 }
