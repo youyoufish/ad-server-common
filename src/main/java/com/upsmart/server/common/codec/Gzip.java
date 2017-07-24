@@ -87,15 +87,17 @@ public class Gzip {
         } catch (IOException e) {
         }
         finally {
-            try {
-                if(null != gzip){
-                    gzip.close();
-                }
-                if(null != out){
+            if(null != out){
+                try {
                     out.close();
+                } catch (IOException e) {
                 }
             }
-            catch (IOException e) {
+            if(null != gzip) {
+                try {
+                    gzip.close();
+                } catch (IOException e) {
+                }
             }
         }
         return null;
