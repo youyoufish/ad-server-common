@@ -47,4 +47,12 @@ public final class MD5 {
         resultString = byteToString(md.digest(strObj.getBytes()));
         return resultString;
     }
+
+    public static String encrypt(byte[] obj) throws NoSuchAlgorithmException {
+        String resultString;
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        // md.digest() 该函数返回值为存放哈希值结果的byte数组
+        resultString = byteToString(md.digest(obj));
+        return resultString;
+    }
 }
