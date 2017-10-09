@@ -1,5 +1,6 @@
 package com.upsmart.server.common.codec;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -53,6 +54,14 @@ public final class MD5 {
         MessageDigest md = MessageDigest.getInstance("MD5");
         // md.digest() 该函数返回值为存放哈希值结果的byte数组
         resultString = byteToString(md.digest(obj));
+        return resultString;
+    }
+
+    public static String encrypt(ByteBuffer obj) throws NoSuchAlgorithmException {
+        String resultString;
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(obj);
+        resultString = byteToString(md.digest());
         return resultString;
     }
 }
