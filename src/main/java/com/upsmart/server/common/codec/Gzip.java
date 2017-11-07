@@ -1,9 +1,6 @@
 package com.upsmart.server.common.codec;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -101,5 +98,96 @@ public class Gzip {
             }
         }
         return null;
+    }
+
+    /**
+     * 文件解压缩
+     * @param oldFile   压缩文件路径
+     * @param newFile   解压后的文件路径
+     * @throws Exception
+     */
+    public static void fileDecompress(String oldFile, String newFile) throws Exception {
+
+        File file = new File(oldFile);
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try{
+            fis = new FileInputStream(file);
+            fos = new FileOutputStream(newFile);
+            fileDecompress(fis, fos);
+        }
+        finally {
+            if(null != fis) {
+                fis.close();
+            }
+            if(null != fos) {
+                fos.close();
+            }
+        }
+    }
+    private static void fileDecompress(InputStream is, OutputStream os) throws IOException {
+        GZIPInputStream gis = null;
+        try{
+            gis = new GZIPInputStream(is);
+            int count;
+            byte data[] = new byte[10240];
+            while ((count = gis.read(data, 0, 10240)) != -1) {
+                os.write(data, 0, count);
+                os.flush();
+            }
+        }
+        finally {
+            if(null != gis){
+                gis.close();
+            }
+        }
+    }
+
+    /**
+     * 文件压缩
+     * @param path
+     * @param delete
+     * @throws Exception
+     */
+    public static void fileCompress(String path, boolean delete) throws Exception {
+        File file = new File(path);
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try{
+            fis = new FileInputStream(file);
+            fos = new FileOutputStream(file.getPath() + ".gz");
+            fileCompress(fis, fos);
+
+            if (delete) {
+                file.delete();
+            }
+        }
+        finally {
+            if(null != fis) {
+                fis.close();
+            }
+            if(null != fos) {
+                fos.close();
+            }
+        }
+    }
+    private static void fileCompress(InputStream is, OutputStream os) throws Exception {
+        GZIPOutputStream gos = null;
+        try{
+            gos = new GZIPOutputStream(os);
+            int count;
+            byte data[] = new byte[10240];
+            while ((count = is.read(data, 0, 10240)) != -1) {
+                gos.write(data, 0, count);
+                gos.flush();
+            }
+            gos.finish();
+            gos.flush();
+        }
+        finally {
+            if(null != gos){
+                gos.close();
+            }
+        }
     }
 }

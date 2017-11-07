@@ -32,4 +32,16 @@ public class GzipTest {
         String result = Gzip.uncompressToString(is, encoding);
         Assert.assertEquals(str, result);
     }
+
+    @Test
+    public void testFileCompress() throws Exception {
+        String file = "/home/upsmart/works/documents/capinfo.csv";
+        Gzip.fileCompress(file, false);
+    }
+    @Test
+    public void testFileDecompress() throws Exception {
+        String file = "/home/upsmart/works/documents/capinfo.csv.gz";
+        String newfile = "/home/upsmart/works/documents/capinfo.csv.111";
+        Gzip.fileDecompress(file, newfile);
+    }
 }

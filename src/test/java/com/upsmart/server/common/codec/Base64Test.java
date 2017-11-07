@@ -77,4 +77,16 @@ public class Base64Test {
 
         Assert.assertEquals(s, decode);
     }
+
+    @Test
+    public void test4(){
+        Base64 b = new Base64();
+        b.setOwnEncoding("EFGHIJKLABCDMNOPQRSTUVWXYZabcdefghmnopqijklrstuvwxyz0123456789_-");
+        b.setOwnPad((byte)'!');
+
+        String s = "ABC123";
+        byte[] binaryData = s.getBytes();
+        String result = new String(b.encodeBase64(binaryData));
+        System.out.println(result);
+    }
 }

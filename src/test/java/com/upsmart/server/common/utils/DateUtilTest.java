@@ -38,5 +38,11 @@ public class DateUtilTest {
 
         day = DateUtil.zeroClock(DateUtil.parseDate("20170501 121314", "yyyyMMdd HHmmss"));
         System.out.println(DateUtil.format(day));
+
+        Date now = new Date();
+        long n = DateUtil.dateToLong(now);
+        Date nn = DateUtil.longToDate(n);
+        System.out.println(String.format("%s, %d, %s", now, n, nn));
+
     }
 }
