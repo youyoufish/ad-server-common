@@ -149,18 +149,20 @@ public class Gzip {
      * @param delete
      * @throws Exception
      */
-    public static void fileCompress(String path, boolean delete) throws Exception {
+    public static String fileCompress(String path, boolean delete) throws Exception {
         File file = new File(path);
         FileInputStream fis = null;
         FileOutputStream fos = null;
+        String gzipFile = file.getPath() + ".gz";
         try{
             fis = new FileInputStream(file);
-            fos = new FileOutputStream(file.getPath() + ".gz");
+            fos = new FileOutputStream(gzipFile);
             fileCompress(fis, fos);
 
             if (delete) {
                 file.delete();
             }
+            return gzipFile;
         }
         finally {
             if(null != fis) {
