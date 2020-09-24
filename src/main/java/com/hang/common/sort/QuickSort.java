@@ -96,12 +96,14 @@ public class QuickSort {
         list.add(5);
         list.add(10);
         list.add(8);
+        list.add(20);
         list.add(11);
         list.add(18);
         list.add(12);
         list.add(17);
         list.add(7);
         list.add(9);
+        list.add(1);
         System.out.println("开始排序:"+list.stream().map(n-> String.valueOf(n)).collect(Collectors.toList()));
         sort(list, 0, list.size()-1);
         System.out.println("排序完成:"+list.stream().map(n-> String.valueOf(n)).collect(Collectors.toList()));
